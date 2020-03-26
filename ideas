@@ -1,0 +1,21 @@
+class Player:
+    # "cards:": ["7s", "8s", "9s", "10c", "Jd", "Qd", "Kh", "As"],
+    # "announcements": ["tierce"],
+    # "points": 20
+    pass
+
+
+class Team:
+    # Two Player
+    # total score
+    pass
+
+
+class Game:
+    # list of [Round]
+    pass
+
+
+class Round:
+    # Two Teams
+    pass
