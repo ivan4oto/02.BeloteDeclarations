@@ -8,6 +8,21 @@ class TestCardClass(unittest.TestCase):
         result = str(c)
         self.assertEqual(result, 'As')
 
+    def test_equality_check_works(self):
+        c1 = Card('Spades', 'King')
+        c2 = Card('Clubs', 'King')
+        self.assertEqual(c1, c2)
+
+    def test_greater_than_works(self):
+        c1 = Card('Spades', 'Ace')
+        c2 = Card('Clubs', '10')
+        self.assertGreater(c1, c2)
+
+    def test_less_than_works(self):
+        c1 = Card('Spades', 'Ace')
+        c2 = Card('Clubs', 'Queen')
+        self.assertLess(c2, c1)
+
 class TestDeckClass(unittest.TestCase):    
     def test_deck_has_the_right_amount_of_cards(self):
         d = Deck()

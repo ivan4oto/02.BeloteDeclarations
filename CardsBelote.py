@@ -1,6 +1,17 @@
 from random import shuffle
 
 class Card:
+    valuesDict = {
+        '7': 1,
+        '8': 2,
+        '9': 3,
+        '10': 4,
+        'Jack': 5,
+        'Queen': 6,
+        'King': 7,
+        'Ace': 9
+        }
+
     def __init__(self, suit, value):
         self.suit = suit
         self.value = value
@@ -10,6 +21,16 @@ class Card:
 
     def __str__(self):
         return "{}{}".format(self.value[0], self.suit[0].lower())
+
+    def __eq__(self, other):
+        return self.valuesDict[self.value] == self.valuesDict[other.value]
+
+    def __lt__(self, other):
+        return self.valuesDict[self.value] < self.valuesDict[other.value]
+
+    def __gt__(self, other):
+        return self.valuesDict[self.value] > self.valuesDict[other.value]
+
 
 class Deck:   
     def __init__(self):
