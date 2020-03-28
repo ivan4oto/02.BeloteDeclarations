@@ -1,4 +1,5 @@
 from random import random
+from copy import copy, deepcopy
 
 from classes.round import Round
 from utils.mixins import Jsonable
@@ -25,10 +26,16 @@ class Game(Jsonable):
     def star_rounds(self):
 
         while not self.check_for_game_winner():
+            self.__clear_for_new_round()
             new_round = Round(self.take_round_type(), self.current_round)
+            new_round.add_round_members(self.teams)
             self.rounds.append(new_round)
 
             self.current_round += 1
+
+    def __clear_for_new_round(self):
+        for team in self.teams:
+            team.new_round()
 
     def take_round_type(self):
 
@@ -83,7 +90,11 @@ class Games(Jsonable):
                 self.teams[game.winner] += 1
 
             self.games_played += 1
-            self.closed_games.append(game)
+            self.closed_games.append(deepcopy(game))
+
+    def clear_for_new_game(self):
+        for team in self.teams:
+            team.new_game()
 
     def check_for_two_games_winner(self):
         for key, value in self.games.items():

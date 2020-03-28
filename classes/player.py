@@ -27,12 +27,12 @@ class Player(Jsonable):
         self.cards.append(card)
 
     def new_round(self):
-        self.all_points = 0
-        self.announcements = []
         self.cards = []
         self.round_report = {}
 
     def new_game(self):
+        self.announcements = []
+        self.all_points = 0
         self.cards = []
         self.round_report = {}
 

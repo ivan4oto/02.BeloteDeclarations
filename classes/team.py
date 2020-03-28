@@ -17,6 +17,10 @@ class Team(Jsonable):
         for member in self.players:
             member.new_round()
 
+    def new_game(self):
+        for member in self.players:
+            member.new_game()
+
     def add_team_members(self, members):
         for member in members:
             if type(member) != Player:
