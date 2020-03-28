@@ -1,4 +1,7 @@
-class Player:
+from utils.mixins import Jsonable
+
+
+class Player(Jsonable):
     def __init__(self, name):
         self.name = name
         self.all_points = 0
@@ -8,6 +11,10 @@ class Player:
 
     def __repr__(self):
         return f"{self.name} - {self.all_points} - {self.cards} "
+
+    def __json__(self):
+        return {f"{self.name}": {
+            "points": self.all_points, "announcements": self.announcements, "cards": self.cards}}
 
     def add_cards(self, cards):
         for card in cards:
@@ -20,6 +27,12 @@ class Player:
         self.cards.append(card)
 
     def new_round(self):
+        self.all_points = 0
+        self.announcements = []
+        self.cards = []
+        self.round_report = {}
+
+    def new_game(self):
         self.cards = []
         self.round_report = {}
 

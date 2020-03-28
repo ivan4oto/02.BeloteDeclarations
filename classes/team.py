@@ -1,12 +1,17 @@
 from classes.player import Player
+from utils.mixins import Jsonable
 
 
-class Team:
+class Team(Jsonable):
     NUMBER_OF_MEMBERS = 2
 
     def __init__(self, name):
         self.name = name
         self.players = []
+        self.games_won = 0
+
+    def __json__(self):
+        return {f"{self.name}": ([player for player in self.players])}
 
     def new_round(self):
         for member in self.players:
