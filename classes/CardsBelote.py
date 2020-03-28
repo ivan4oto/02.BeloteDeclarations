@@ -1,5 +1,6 @@
 from random import shuffle
 
+
 class Card:
     valuesDict = {
         '7': 1,
@@ -20,7 +21,12 @@ class Card:
         return "{} of {}".format(self.value, self.suit)
 
     def __str__(self):
-        return "{}{}".format(self.value[0], self.suit[0].lower())
+        #Cards with value '10' were returning '1' as a value before the if statement.
+        if self.value == '10':
+            return "{}{}".format(self.value[:2], self.suit[0].lower())
+        else:
+            return "{}{}".format(self.value[0], self.suit[0].lower())
+
 
     def __eq__(self, other):
         return self.valuesDict[self.value] == self.valuesDict[other.value]
@@ -30,6 +36,11 @@ class Card:
 
     def __gt__(self, other):
         return self.valuesDict[self.value] > self.valuesDict[other.value]
+
+    def __le__(self, other):
+        return self.valuesDict[self.value] <= self.valuesDict[other.value]
+
+
 
 
 class Deck:   
@@ -46,8 +57,13 @@ class Deck:
             raise ValueError('Not enough cards in the deck')
         cards = self.cards[-num:]
         self.cards = self.cards[:-num]
-        return cards
+        return cards   
+
+    def __getitem__(self, cardnum):
+        return self.cards[cardnum]   
+
+    def __str__(self):
+        return str([str(card) for card in self.cards])
 
     def shuffle(self):
         shuffle(self.cards)
-

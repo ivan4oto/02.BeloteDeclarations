@@ -23,6 +23,9 @@ class Player:
         self.cards = []
         self.round_report = {}
 
+    def hand_size(self):
+        return len(self.cards)
+
     def add_round_report(self):
         self.announcements.extend(self.round_report)
 
