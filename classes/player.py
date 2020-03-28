@@ -1,3 +1,6 @@
+import itertools
+
+
 class Player:
     def __init__(self, name):
         self.name = name
@@ -30,6 +33,22 @@ class Player:
         self.announcements.extend(self.round_report)
 
     def check_for_announcements(self):
-        # proverqva broq na kartite dali e 8 i ako e 8 proverqva dali imash combinaciq
-        if len(self.cards) != 8:
-            raise ValueError
+        #group same value
+        x = [list(j) for i, j in itertools.groupby(self.cards)]
+        annsCarre = []
+
+        #find Carre
+        for i in x:
+            if len(i) == 4:
+                if i[0].get_key() in (4,6,7,9):
+                    annsCarre.append("carre of {}'s = 100 points".format(i[0].value))
+                elif i[0].get_key() == 3:
+                    annsCarre.append("carre of {}'s = 150 points".format(i[0].value))
+                elif i[0].get_key() == 5:
+                    annsCarre.append("carre of {}'s = 200 points".format(i[0].value))
+        
+
+        self.announcements.append(annsCarre)
+
+
+        

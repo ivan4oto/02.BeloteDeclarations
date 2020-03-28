@@ -28,12 +28,21 @@ class TestPlayer(unittest.TestCase):
         d.shuffle()
         hand = d._deal(8)
         
-
         p.add_cards(hand)
         p.cards.sort()
         result = all(p.cards[i] <= p.cards[i+1] for i in range(p.hand_size()-1))
 
         self.assertTrue(result)
+
+    def test_check_for_announcements_finds_carre150(self):
+        p = Player('Ivanchoto')
+        carreDeck = [Card('Spades', '7'), Card('Spades', '8'), Card('Spades', '9'), Card('Clubs', '9'), Card('Diamonds', '9'), Card('Hearts','9'), Card('Clubs','King'), Card('Spades', 'Ace')]
+        p.add_cards(carreDeck)
+        p.check_for_announcements()
+
+        self.assertIn(["carre of 9's = 150 points"], p.announcements)
+
+
         
         
 

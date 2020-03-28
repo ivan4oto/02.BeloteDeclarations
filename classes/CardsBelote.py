@@ -40,6 +40,9 @@ class Card:
     def __le__(self, other):
         return self.valuesDict[self.value] <= self.valuesDict[other.value]
 
+    def get_key(self):
+        return self.valuesDict[self.value]
+
 
 
 

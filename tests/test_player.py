@@ -1,5 +1,4 @@
 import unittest
-
 from classes.player import Player
 
 
