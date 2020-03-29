@@ -10,7 +10,7 @@ class Card:
         'Jack': 5,
         'Queen': 6,
         'King': 7,
-        'Ace': 9
+        'Ace': 8
         }
 
     def __init__(self, suit, value):

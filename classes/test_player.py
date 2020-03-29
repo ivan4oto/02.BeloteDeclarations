@@ -38,9 +38,19 @@ class TestPlayer(unittest.TestCase):
         p = Player('Ivanchoto')
         carreDeck = [Card('Spades', '7'), Card('Spades', '8'), Card('Spades', '9'), Card('Clubs', '9'), Card('Diamonds', '9'), Card('Hearts','9'), Card('Clubs','King'), Card('Spades', 'Ace')]
         p.add_cards(carreDeck)
+        p.cards.sort()
         p.check_for_announcements()
 
         self.assertIn(["carre of 9's = 150 points"], p.announcements)
+
+    def test_check_for_announcements_finds_quarte(self):
+        p = Player('Kondio')
+        carreDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Hearts','Queen'), Card('Clubs','King'), Card('Spades', '7')]
+        p.add_cards(carreDeck)
+        p.cards.sort()
+        p.check_for_announcements()
+
+        self.assertIn(["quarte"], p.announcements)
 
 
         
