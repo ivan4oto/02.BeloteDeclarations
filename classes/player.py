@@ -1,8 +1,10 @@
+from utils.mixins import Jsonable
+
 import itertools
 from CardsBelote import Card, Deck
 
 
-class Player:
+class Player(Jsonable):
     def __init__(self, name):
         self.name = name
         self.all_points = 0
@@ -12,6 +14,10 @@ class Player:
 
     def __repr__(self):
         return f"{self.name} - {self.all_points} - {self.cards} "
+
+    def __json__(self):
+        return {f"{self.name}": {
+            "points": self.all_points, "announcements": self.announcements, "cards": self.cards}}
 
     def add_cards(self, cards):
         for card in cards:
@@ -24,6 +30,12 @@ class Player:
         self.cards.append(card)
 
     def new_round(self):
+        self.cards = []
+        self.round_report = {}
+
+    def new_game(self):
+        self.announcements = []
+        self.all_points = 0
         self.cards = []
         self.round_report = {}
 
@@ -49,19 +61,24 @@ class Player:
                     annsCarre.append("carre of {}'s = 150 points".format(i[0].value))
                 elif i[0].get_key() == 5:
                     annsCarre.append("carre of {}'s = 200 points".format(i[0].value))
-        
+
         #Groups cards into consecutive values
-        def groupSequence(lst): 
-            res = [[lst[0]]]         
-            for i in range(1, len(lst)): 
+        def groupSequence(lst):
+            res = [[lst[0]]]
+            for i in range(1, len(lst)):
                 #get_key used to compare the coresponding value in valuesDict
-                if (lst[i-1]).get_key()+1 == (lst[i]).get_key(): 
-                    res[-1].append(lst[i])         
-                else: 
-                    res.append([lst[i]]) 
+                if (lst[i-1]).get_key()+1 == (lst[i]).get_key():
+                    res[-1].append(lst[i])
+                else:
+                    res.append([lst[i]])
             return res
+<<<<<<< HEAD
         
         
+=======
+
+        groups = groupSequence(self.cards)
+>>>>>>> e2d96df32f2fbe9cb0defc27e5d85f5024410e3e
         #finds Tierce, Quarte or Quinte
         groups = groupSequence(self.cards)
         for grp in groups:
@@ -82,10 +99,14 @@ class Player:
 
         self.announcements.append(annsCarre)
         self.announcements.append(annsConsec)
+<<<<<<< HEAD
         self.announcements.append(annsBelote)
 
 
         
+=======
+
+>>>>>>> e2d96df32f2fbe9cb0defc27e5d85f5024410e3e
 def main():
     pass
 
