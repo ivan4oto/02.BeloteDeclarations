@@ -27,15 +27,13 @@ class Team(Jsonable):
                 raise TypeError
             self.__add_team_member(member)
 
-    # def take_players_round_report(self):
-    #     all_report = []
-    #     all_report_dict = {}
-    #
-    #     for player in self.players:
-    #         all_report.extend(player.round_report)
-    #         all_report_dict[player] = player.round_report
-    #
-    #     return [all_report, all_report_dict]
+    def take_players_round_report(self):
+        all_report = {}
+
+        for player in self.players:
+            all_report[player] = player.round_report
+
+        return all_report
 
     def __add_team_member(self, member):
         self.__check_team_members_numbers()
