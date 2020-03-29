@@ -1,4 +1,5 @@
 import itertools
+from CardsBelote import Card, Deck
 
 
 class Player:
@@ -33,12 +34,13 @@ class Player:
         self.announcements.extend(self.round_report)
 
     def check_for_announcements(self):
-        #group same value
-        x = [list(j) for i, j in itertools.groupby(self.cards)]
         annsCarre = []
         annsConsec  = []
+        annsBelote = []
 
         #find Carre
+        #group same value
+        x = [list(j) for i, j in itertools.groupby(self.cards)]
         for i in x:
             if len(i) == 4:
                 if i[0].get_key() in (4,6,7,9):
@@ -59,8 +61,9 @@ class Player:
                     res.append([lst[i]]) 
             return res
         
-        groups = groupSequence(self.cards)
+        
         #finds Tierce, Quarte or Quinte
+        groups = groupSequence(self.cards)
         for grp in groups:
             if len(grp) == 3:
                 annsConsec.append('tierce')
@@ -69,9 +72,19 @@ class Player:
             elif len(grp) >= 5:
                 annsConsec.append('quinte')
 
+        #find Belote
+        for a in self.cards:
+            if a.value == 'Queen':
+                if Card(a.suit, 'King') in self.cards:
+                    annsBelote.append('belote')
+
+
 
         self.announcements.append(annsCarre)
         self.announcements.append(annsConsec)
+        self.announcements.append(annsBelote)
+
+
         
 def main():
     pass

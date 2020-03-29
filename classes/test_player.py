@@ -45,12 +45,21 @@ class TestPlayer(unittest.TestCase):
 
     def test_check_for_announcements_finds_quarte(self):
         p = Player('Kondio')
-        carreDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Hearts','Queen'), Card('Clubs','King'), Card('Spades', '7')]
-        p.add_cards(carreDeck)
+        quarteDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Hearts','Queen'), Card('Clubs','King'), Card('Spades', '7')]
+        p.add_cards(quarteDeck)
         p.cards.sort()
         p.check_for_announcements()
 
         self.assertIn(["quarte"], p.announcements)
+
+    def test_check_for_announcements_finds_belote(self):
+        p = Player('DokoDoko')
+        beloteDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Clubs', 'Queen'), Card('Clubs', 'King'), Card('Spades', '7')]
+        p.add_cards(beloteDeck)
+        p.cards.sort()
+        p.check_for_announcements()
+
+        self.assertIn(["belote"], p.announcements)
 
 
         
