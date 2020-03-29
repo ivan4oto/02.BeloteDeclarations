@@ -10,7 +10,7 @@ class Card:
         'Jack': 5,
         'Queen': 6,
         'King': 7,
-        'Ace': 9
+        'Ace': 8
         }
 
     def __init__(self, suit, value):
@@ -39,6 +39,9 @@ class Card:
 
     def __le__(self, other):
         return self.valuesDict[self.value] <= self.valuesDict[other.value]
+
+    def get_key(self):
+        return self.valuesDict[self.value]
 
 
 
