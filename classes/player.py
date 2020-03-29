@@ -1,11 +1,9 @@
 from utils.mixins import Jsonable
 
-
-class Player(Jsonable):
 import itertools
 
 
-class Player:
+class Player(Jsonable):
     def __init__(self, name):
         self.name = name
         self.all_points = 0
