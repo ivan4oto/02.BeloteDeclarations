@@ -72,13 +72,8 @@ class Player(Jsonable):
                 else:
                     res.append([lst[i]])
             return res
-<<<<<<< HEAD
-        
-        
-=======
 
         groups = groupSequence(self.cards)
->>>>>>> e2d96df32f2fbe9cb0defc27e5d85f5024410e3e
         #finds Tierce, Quarte or Quinte
         groups = groupSequence(self.cards)
         for grp in groups:
@@ -99,14 +94,10 @@ class Player(Jsonable):
 
         self.announcements.append(annsCarre)
         self.announcements.append(annsConsec)
-<<<<<<< HEAD
         self.announcements.append(annsBelote)
 
 
-        
-=======
 
->>>>>>> e2d96df32f2fbe9cb0defc27e5d85f5024410e3e
 def main():
     pass
 
