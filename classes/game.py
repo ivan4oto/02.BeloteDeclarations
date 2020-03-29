@@ -44,7 +44,7 @@ class Game(Jsonable):
 
     def take_round_type(self):
 
-        all_types = ["All trumps", "No trumps"]
+        all_types = ["All trumps", "No trumps", "Clubs", "Diamonds", "Hearts", "Spades"]
         return random(all_types)
 
     def check_for_game_winner(self):

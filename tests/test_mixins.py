@@ -48,8 +48,9 @@ class TestJsonable(unittest.TestCase):
                 {"Pesho": {"points": 0, "announcements": [], "cards": []}}]},
             {"Lion": [
                 {"Nasko": {"points": 0, "announcements": [], "cards": []}},
-                {"Petko": {"points": 0, "announcements": [], "cards": []}}]}]
-        }, cls=OurEncoder))
+                {"Petko": {"points": 0, "announcements": [], "cards": []}}]}
+        ],
+            "contract": "All trumps"}, cls=OurEncoder))
 
     def test_game_jsonable(self):
         player1 = Player("Marto")
@@ -75,8 +76,9 @@ class TestJsonable(unittest.TestCase):
                     {"Pesho": {"points": 0, "announcements": [], "cards": []}}]},
                 {"Lion": [
                     {"Nasko": {"points": 0, "announcements": [], "cards": []}},
-                    {"Petko": {"points": 0, "announcements": [], "cards": []}}]}]}]
-        }, cls=OurEncoder))
+                    {"Petko": {"points": 0, "announcements": [], "cards": []}}]}
+            ],
+                "contract": "All trumps"}]}, cls=OurEncoder))
 
 
 if __name__ == '__main__':

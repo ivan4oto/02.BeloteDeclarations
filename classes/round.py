@@ -13,7 +13,7 @@ class Round(Jsonable):
         self.ordered_players = ordered_players
 
     def __json__(self):
-        return {f"round {self.number}": ([team for team in self.teams])}
+        return {f"round {self.number}": ([team for team in self.teams]), "contract": f"{self.game_type}"}
 
     def start_round(self):
 

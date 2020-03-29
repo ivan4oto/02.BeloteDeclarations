@@ -75,6 +75,33 @@ class TestRound(unittest.TestCase):
 
         self.assertEqual(len(list_of_deck), 4)
 
+    def test_add_player_cards_when_add_correct_deck_to_player_return_correct(self):
+        new_deck = Deck()
+
+        player1 = Player("Marto")
+        player2 = Player("Pesho")
+        player3 = Player("Nasko")
+        player4 = Player("Petko")
+
+        team1 = Team("Wolf")
+        team2 = Team("Lion")
+        team1.add_team_members([player1, player2])
+        team2.add_team_members([player3, player4])
+
+        ordered_players = [player1, player3, player2, player4]
+
+        new_round = Round("All trumps", ordered_players, 1)
+        new_round.add_round_members([team1, team2])
+
+        list_of_deck = new_round.make_deck_to_four_decks(new_deck)
+
+        new_round._add_player_cards(list_of_deck)
+
+        self.assertEqual(len(player1.cards), 8)
+        self.assertEqual(len(player2.cards), 8)
+        self.assertEqual(len(player3.cards), 8)
+        self.assertEqual(len(player4.cards), 8)
+
 
 if __name__ == '__main__':
     unittest.main()
