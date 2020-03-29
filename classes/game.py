@@ -8,12 +8,17 @@ from utils.mixins import Jsonable
 class Game(Jsonable):
     MAX_SCORE = 151
 
-    def __init__(self, teams, game_number=1):
+    def __init__(self, teams, players_order, game_number=1):
         self.rounds = []
         self.game_number = game_number
         self.teams = teams
         self.current_round = 1
         self.winner = False
+        self.players_order = players_order
+
+    def players_order_after_round(self):
+        player_go_last = self.players_order.pop(0)
+        self.players_order.append(player_go_last)
 
     def __json__(self):
         return {f"game {self.game_number}": ([round_game for round_game in self.rounds])}
@@ -80,7 +85,9 @@ class Games(Jsonable):
 
         while not self.check_for_two_games_winner():
 
-            game = Game(self.teams, self.games_played)
+            players_order = self.take_players_order()
+
+            game = Game(self.teams, players_order, self.games_played)
 
             game.start_game()
 
@@ -91,6 +98,13 @@ class Games(Jsonable):
 
             self.games_played += 1
             self.closed_games.append(deepcopy(game))
+
+    def take_players_order(self):
+        players_order = []
+        for player_team_1, player_team_2 in zip(self.teams[0], self.teams[1]):
+            players_order.append(player_team_1)
+            players_order.append(player_team_2)
+        return players_order
 
     def clear_for_new_game(self):
         for team in self.teams:
