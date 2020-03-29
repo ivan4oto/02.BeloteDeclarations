@@ -7,6 +7,7 @@ class Jsonable:
 
 
 class OurEncoder(json.JSONEncoder):
+
     def default(self, obj):
         if hasattr(obj, "__json__"):
             return obj.__json__()
