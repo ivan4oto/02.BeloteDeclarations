@@ -32,11 +32,13 @@ class Game(Jsonable):
 
         while not self.check_for_game_winner():
             self.__clear_for_new_round()
-            new_round = Round(self.take_round_type(), self.current_round)
+            new_round = Round(self.take_round_type(), self.players_order, self.current_round)
             new_round.add_round_members(self.teams)
             self.rounds.append(new_round)
+            # Provarevavame za po golemi ili ednakvi kombinacii
 
             self.current_round += 1
+            self.players_order_after_round()
 
     def __clear_for_new_round(self):
         for team in self.teams:

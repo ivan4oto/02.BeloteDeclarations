@@ -21,6 +21,16 @@ class Round(Jsonable):
         list_of_decks = self.make_deck_to_four_decks(deck)
         self._add_player_cards(list_of_decks)
 
+
+    def check_player_announcements(self):
+
+        for team in self.teams:
+            team.players[0].check_for_announcements()
+            team.players[1].check_for_announcements()
+
+
+
+
     def _create_new_deck(self):
         new_deck = Deck()
         new_deck.shuffle()

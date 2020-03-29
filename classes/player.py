@@ -44,21 +44,21 @@ class Player(Jsonable):
     def add_round_report(self):
         self.announcements.extend(self.round_report)
 
-    def check_for_announcements(self):
+    def check_for_announcements(self,type):
         #group same value
         x = [list(j) for i, j in itertools.groupby(self.cards)]
-        annsCarre = []
-        annsConsec  = []
+        anns = {}
+
 
         #find Carre
         for i in x:
             if len(i) == 4:
                 if i[0].get_key() in (4,6,7,9):
-                    annsCarre.append("carre of {}'s = 100 points".format(i[0].value))
+                    anns["carre of {}'s = 100 points".format(i[0].value)] = i
                 elif i[0].get_key() == 3:
-                    annsCarre.append("carre of {}'s = 150 points".format(i[0].value))
+                    anns["carre of {}'s = 150 points".format(i[0].value)] = i
                 elif i[0].get_key() == 5:
-                    annsCarre.append("carre of {}'s = 200 points".format(i[0].value))
+                    anns["carre of {}'s = 200 points".format(i[0].value)] = i
 
         #Groups cards into consecutive values
         def groupSequence(lst):
@@ -75,15 +75,14 @@ class Player(Jsonable):
         #finds Tierce, Quarte or Quinte
         for grp in groups:
             if len(grp) == 3:
-                annsConsec.append('tierce')
+                anns['tierce'] = grp
             elif len(grp) == 4:
-                annsConsec.append('quarte')
+                anns['quarte'] = grp
             elif len(grp) >= 5:
-                annsConsec.append('quinte')
+                anns['quinte'] = grp
 
 
-        self.announcements.append(annsCarre)
-        self.announcements.append(annsConsec)
+        self.round_report  = anns
 
 def main():
     pass

@@ -41,7 +41,7 @@ class TestPlayer(unittest.TestCase):
         p.cards.sort()
         p.check_for_announcements()
 
-        self.assertIn(["carre of 9's = 150 points"], p.announcements)
+        self.assertIn("carre of 9's = 150 points", p.round_report[0].keys())
 
     def test_check_for_announcements_finds_quarte(self):
         p = Player('Kondio')
@@ -50,7 +50,7 @@ class TestPlayer(unittest.TestCase):
         p.cards.sort()
         p.check_for_announcements()
 
-        self.assertIn(["quarte"], p.announcements)
+        self.assertIn("quarte", p.round_report[0].keys())
 
 
         
