@@ -1,6 +1,7 @@
 from classes.team import Team
 from utils.mixins import Jsonable
 from classes.CardsBelote import Deck, Card
+from utils.round_utils import AnnouncementsCards
 
 
 class Round(Jsonable):
@@ -22,8 +23,41 @@ class Round(Jsonable):
         self._add_player_cards(list_of_decks)
         self.start_player_announcements()
         self.check_for_consecutive_cards()
-    #     check for "CarreS"
+        #     check for "CarreS"
+        self.add_valid_announcements_to_team()
 
+    #
+    
+    def add_valid_announcements_to_team(self):
+
+        for team in self.teams:
+            self.add_valid_announcements_to_player(team)
+
+    def add_valid_announcements_to_player(self, team):
+
+        for player in team:
+            player.announcements.extend(player.round_report.keys())
+            player.all_points += self.calculate_round_report(player)
+
+    def calculate_round_report(self, player):
+        result = 0
+
+        for single_report in player.round_report:
+            if single_report == "belote":
+                result += AnnouncementsCards.belote.value
+            elif single_report == "tierce":
+                result += AnnouncementsCards.tierce.value
+            elif single_report == "quarte":
+                result += AnnouncementsCards.quarte.value
+            elif single_report == "quinte":
+                result += AnnouncementsCards.quinte.value
+            elif single_report == "carre_of_9s_":
+                result += AnnouncementsCards.carre_of_9s_.value
+            elif single_report == "carre_of_10_Q_K_A":
+                result += AnnouncementsCards.carre_of_10_Q_K_A.value
+            elif single_report == "carre_of_Js":
+                result += AnnouncementsCards.carre_of_Js.value
+        return result
 
     def check_for_consecutive_cards(self):
         self.check_teams_for_quinte()
