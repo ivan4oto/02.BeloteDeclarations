@@ -34,32 +34,46 @@ class TestPlayer(unittest.TestCase):
 
         self.assertTrue(result)
 
+
     def test_check_for_announcements_finds_carre150(self):
         p = Player('Ivanchoto')
         carreDeck = [Card('Spades', '7'), Card('Spades', '8'), Card('Spades', '9'), Card('Clubs', '9'), Card('Diamonds', '9'), Card('Hearts','9'), Card('Clubs','King'), Card('Spades', 'Ace')]
         p.add_cards(carreDeck)
         p.cards.sort()
-        p.check_for_announcements()
+        p.check_for_announcements('All trumps')
+        result = ["carre of 9's = 150 points" in p.round_report.keys()]
 
-        self.assertIn("carre of 9's = 150 points", p.round_report[0].keys())
+        self.assertTrue(result[0])
 
     def test_check_for_announcements_finds_quarte(self):
         p = Player('Kondio')
-        quarteDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Hearts','Queen'), Card('Clubs','King'), Card('Spades', '7')]
-        p.add_cards(quarteDeck)
+        carreDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Hearts','Queen'), Card('Clubs','King'), Card('Spades', '7')]
+        p.add_cards(carreDeck)
         p.cards.sort()
-        p.check_for_announcements()
+        p.check_for_announcements('All trumps')
+        result = ['quarte' in p.round_report.keys()]
 
-        self.assertIn("quarte", p.round_report[0].keys())
+        self.assertTrue(result[0])
 
     def test_check_for_announcements_finds_belote(self):
         p = Player('DokoDoko')
         beloteDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Clubs', 'Queen'), Card('Clubs', 'King'), Card('Spades', '7')]
         p.add_cards(beloteDeck)
         p.cards.sort()
-        p.check_for_announcements()
+        p.check_for_announcements('All trumps')
+        result = ['belote' in p.round_report.keys()]
 
-        self.assertIn(["belote"], p.announcements)
+        self.assertTrue(result[0])
+
+    def test_check_for_announcements_ignores_belote_if_game_type_no_trumps(self):
+        p = Player('DokoDoko')
+        beloteDeck = [Card('Diamonds', 'Ace'), Card('Spades', '10'), Card('Spades', '8'), Card('Clubs', 'Jack'), Card('Diamonds', 'Jack'), Card('Clubs', 'Queen'), Card('Clubs', 'King'), Card('Spades', '7')]
+        p.add_cards(beloteDeck)
+        p.cards.sort()
+        p.check_for_announcements('No trumps')
+        result = ['belote' not in p.round_report.keys()]
+
+        self.assertTrue(result[0])
 
 
         
