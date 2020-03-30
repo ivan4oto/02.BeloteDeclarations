@@ -1,6 +1,11 @@
-from mixins import Jsonable
-from CardsBelote import Card, Deck
+# from mixins import Jsonable
+# from CardsBelote import Card, Deck
+# import itertools
+
 import itertools
+from random import shuffle
+from utils.mixins import Jsonable
+from classes.CardsBelote import Card, Deck
 
 
 class Player(Jsonable):

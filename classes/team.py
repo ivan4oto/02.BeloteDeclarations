@@ -31,6 +31,7 @@ class Team(Jsonable):
         all_report = {}
 
         for player in self.players:
+
             all_report[player] = player.round_report
 
         return all_report

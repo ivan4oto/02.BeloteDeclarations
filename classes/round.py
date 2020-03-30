@@ -1,6 +1,6 @@
 from classes.team import Team
 from utils.mixins import Jsonable
-from classes.CardsBelote import Deck
+from classes.CardsBelote import Deck, Card
 
 
 class Round(Jsonable):
@@ -21,6 +21,14 @@ class Round(Jsonable):
         list_of_decks = self.make_deck_to_four_decks(deck)
         self._add_player_cards(list_of_decks)
         self.start_player_announcements()
+        self.check_for_consecutive_cards()
+    #     check for "CarreS"
+
+
+    def check_for_consecutive_cards(self):
+        self.check_teams_for_quinte()
+        self.check_teams_for_quarte()
+        self.check_teams_for_tierce()
 
     def start_player_announcements(self):
 
@@ -34,18 +42,14 @@ class Round(Jsonable):
 
         if self.check_team_for_quinte(first_team_report) and self.check_team_for_quinte(second_team_report):
             dict_to_check = {}
-            for player, report in first_team_report.items():
-                if "quinte" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["quinte"]])] = [player]
 
-            for player, report in second_team_report.items():
-                if "quinte" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["quinte"]])] = [player]
+            self.player_cards_check(dict_to_check, "quinte", first_team_report)
+            self.player_cards_check(dict_to_check, "quinte", second_team_report)
 
             max_value = max(dict_to_check.keys())
-            winner = [dict_to_check[max_value]]
+            winner = dict_to_check[max_value]
 
-            if len(winner) == 2:
+            if len(winner) >= 2:
                 for player, values in second_team_report.items():
                     if "quinte" in values:
                         del values['quinte']
@@ -87,6 +91,19 @@ class Round(Jsonable):
             if "quinte" in report:
                 return True
 
+    def player_cards_check(self, dict_to_check, variable, team):
+
+        for player, report in team.items():
+            if variable in report:
+                list_of = report[variable]
+                result = [Card.valuesDict[card.value] for card in list_of]
+                if sum(result) in dict_to_check:
+                    current = dict_to_check[sum(result)]
+                    current.append(player)
+                    dict_to_check[sum(result)] = current
+                else:
+                    dict_to_check[sum(result)] = [player]
+
     def check_teams_for_quarte(self):
 
         first_team_report = self.teams[0].take_players_round_report()
@@ -95,18 +112,14 @@ class Round(Jsonable):
         if self.check_team_for_quarte(first_team_report) and self.check_team_for_quarte(second_team_report):
 
             dict_to_check = {}
-            for player, report in first_team_report.items():
-                if "quarte" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["quarte"]])] = [player]
 
-            for player, report in second_team_report.items():
-                if "quarte" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["quarte"]])] = [player]
+            self.player_cards_check(dict_to_check, "quarte", first_team_report)
+            self.player_cards_check(dict_to_check, "quarte", second_team_report)
 
             max_value = max(dict_to_check.keys())
-            winner = [dict_to_check[max_value]]
+            winner = dict_to_check[max_value]
 
-            if len(winner) == 2:
+            if len(winner) >= 2:
                 for player, values in second_team_report.items():
                     if "quarte" in values:
                         del values['quarte']
@@ -117,7 +130,7 @@ class Round(Jsonable):
                         self.remove_tierce(first_team_report)
 
             else:
-                if not winner in first_team_report:
+                if not winner in first_team_report.items():
                     for player, values in second_team_report.items():
                         if "quarte" in values:
                             del values['quarte']
@@ -127,10 +140,13 @@ class Round(Jsonable):
                         if "quarte" in values:
                             del values['quarte']
                         self.remove_tierce(first_team_report)
+
         elif self.check_team_for_quarte(first_team_report):
+
             self.remove_tierce(second_team_report)
 
         elif self.check_team_for_quarte(second_team_report):
+
             self.remove_tierce(first_team_report)
 
     def check_team_for_quarte(self, team_report):
@@ -151,26 +167,25 @@ class Round(Jsonable):
         if self.check_team_for_tierce(first_team_report) and self.check_team_for_tierce(second_team_report):
 
             dict_to_check = {}
-            for player, report in first_team_report.items():
-                if "tierce" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["tierce"]])] = [player]
 
-            for player, report in second_team_report.items():
-                if "tierce" in report:
-                    dict_to_check[sum([card.valuesDict(card.value) for card in report["tierce"]])] = [player]
+            self.player_cards_check(dict_to_check, "tierce", first_team_report)
+            self.player_cards_check(dict_to_check, "tierce", second_team_report)
 
             max_value = max(dict_to_check.keys())
-            winner = [dict_to_check[max_value]]
+            winner = dict_to_check[max_value]
 
-            if len(winner) == 2:
+            if len(winner) >= 2:
                 for player, values in second_team_report.items():
                     if "tierce" in values:
                         del values['tierce']
+                        self.remove_tierce(second_team_report)
                 for player, values in first_team_report.items():
                     if "tierce" in values:
                         del values['tierce']
+                        self.remove_tierce(first_team_report)
+
             else:
-                if not winner in first_team_report:
+                if not winner in first_team_report.items():
                     for player, values in second_team_report.items():
                         if "tierce" in values:
                             del values['tierce']
@@ -178,6 +193,14 @@ class Round(Jsonable):
                     for player, values in first_team_report.items():
                         if "tierce" in values:
                             del values['tierce']
+
+        elif self.check_team_for_tierce(first_team_report):
+
+            self.remove_tierce(second_team_report)
+
+        elif self.check_team_for_tierce(second_team_report):
+
+            self.remove_tierce(first_team_report)
 
     def check_team_for_tierce(self, team_report):
         for player, report in team_report.items():
