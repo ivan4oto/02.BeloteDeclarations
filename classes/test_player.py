@@ -75,6 +75,15 @@ class TestPlayer(unittest.TestCase):
 
         self.assertTrue(result[0])
 
+    def test_check_for_announcements_ignores_tierce(self):
+        p = Player('Kondio')
+        carreDeck = [Card('Spades','7'), Card('Spades', '8'), Card('Spades', '9'), Card('Clubs', '9'), Card('Diamonds', '9'), Card('Hearts','9'), Card('Clubs','King'), Card('Spades', 'Ace')]
+        p.add_cards(carreDeck)
+        p.cards.sort()
+        p.check_for_announcements('All trumps')
+        result = ['tierce' not in p.round_report.keys()]
+        
+        self.assertTrue(result[0])
 
         
         

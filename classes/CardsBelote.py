@@ -29,7 +29,7 @@ class Card:
 
 
     def __eq__(self, other):
-        return self.valuesDict[self.value] == self.valuesDict[other.value]
+        return self.valuesDict[self.value] == self.valuesDict[other.value] and self.suit == other.suit
 
     def __lt__(self, other):
         return self.valuesDict[self.value] < self.valuesDict[other.value]

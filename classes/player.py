@@ -64,9 +64,13 @@ class Player(Jsonable):
 
         #find Carre
         def find_carre_anns(gametype):
+
+            def return_value(card):
+                return card.value
+
             if gametype != 'No trumps':
                 #group same value
-                x = [list(j) for i, j in itertools.groupby(self.cards)]
+                x = [list(j) for i, j in itertools.groupby(self.cards, return_value)]
                 for i in x:
                     if len(i) == 4:
                         if i[0].get_key() in (4,6,7,9):
@@ -80,6 +84,7 @@ class Player(Jsonable):
         def find_consecutive_anns(gametype):
             if gametype != 'No trumps':
                 #Groups cards into consecutive values
+
                 def groupSequence(lst):
                     res = [[lst[0]]]
                     for i in range(1, len(lst)):
@@ -92,23 +97,25 @@ class Player(Jsonable):
 
                 groups = groupSequence(self.cards)
                 for grp in groups:
-                    if len(grp) == 3:
+                    x = [i for i in grp if i in concat_ar]                    
+                    if len(grp) == 3 and not x:
                         anns['tierce'] = grp
-                    elif len(grp) == 4:
+                    elif len(grp) == 4 and not x:
                         anns['quarte'] = grp
-                    elif len(grp) >= 5:
+                    elif len(grp) >= 5 and not x:
                         anns['quinte'] = grp
+        
 
         find_carre_anns(gametype)
+        ar = [anns[a] for a in anns.keys()]
+        concat_ar = [j for i in ar for j in i]
         find_consecutive_anns(gametype)
         find_belote_anns(gametype)
         self.round_report  = anns
 
-
-
-
 def main():
     pass
     
+
 if __name__ == "__main__":
     main()
