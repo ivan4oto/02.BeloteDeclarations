@@ -70,3 +70,10 @@ class Deck:
 
     def shuffle(self):
         shuffle(self.cards)
+
+        
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()

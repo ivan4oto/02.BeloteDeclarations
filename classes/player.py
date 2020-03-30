@@ -1,6 +1,7 @@
 from utils.mixins import Jsonable
 
 import itertools
+from CardsBelote import Card, Deck
 
 
 class Player(Jsonable):
@@ -49,8 +50,9 @@ class Player(Jsonable):
         x = [list(j) for i, j in itertools.groupby(self.cards)]
         anns = {}
 
-
         #find Carre
+        #group same value
+        x = [list(j) for i, j in itertools.groupby(self.cards)]
         for i in x:
             if len(i) == 4:
                 if i[0].get_key() in (4,6,7,9):
@@ -73,6 +75,7 @@ class Player(Jsonable):
 
         groups = groupSequence(self.cards)
         #finds Tierce, Quarte or Quinte
+        groups = groupSequence(self.cards)
         for grp in groups:
             if len(grp) == 3:
                 anns['tierce'] = grp
@@ -81,8 +84,15 @@ class Player(Jsonable):
             elif len(grp) >= 5:
                 anns['quinte'] = grp
 
+        #find Belote
+        for a in self.cards:
+            if a.value == 'Queen':
+                if Card(a.suit, 'King') in self.cards:
+                    annsBelote.append('belote')
 
-        self.round_report  = anns
+
+
+
 
 def main():
     pass
