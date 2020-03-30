@@ -1,8 +1,9 @@
-from random import random
-from copy import copy, deepcopy
+import random
+from copy import  deepcopy
 
 from classes.round import Round
 from utils.mixins import Jsonable
+from utils.round_utils import AnnouncementsGame
 
 
 class Game(Jsonable):
@@ -34,11 +35,13 @@ class Game(Jsonable):
             self.__clear_for_new_round()
             new_round = Round(self.take_round_type(), self.players_order, self.current_round)
             new_round.add_round_members(self.teams)
+            new_round.start_round()
             self.rounds.append(new_round)
             # Provarevavame za po golemi ili ednakvi kombinacii
 
             self.current_round += 1
             self.players_order_after_round()
+            self.__clear_for_new_round()
 
     def __clear_for_new_round(self):
         for team in self.teams:
@@ -46,8 +49,10 @@ class Game(Jsonable):
 
     def take_round_type(self):
 
-        all_types = ["All trumps", "No trumps", "Clubs", "Diamonds", "Hearts", "Spades"]
-        return random(all_types)
+        all_types = [AnnouncementsGame.allTrumps.value, AnnouncementsGame.noTrumps.value,
+                     AnnouncementsGame.diamonds.value,
+                     AnnouncementsGame.spades.value, AnnouncementsGame.hearts.value, AnnouncementsGame.clubs.value]
+        return random.choice(all_types)
 
     def check_for_game_winner(self):
 
@@ -100,6 +105,7 @@ class Games(Jsonable):
 
             self.games_played += 1
             self.closed_games.append(deepcopy(game))
+            self.clear_for_new_game()
 
     def take_players_order(self):
         players_order = []

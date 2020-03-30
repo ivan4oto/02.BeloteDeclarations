@@ -1,6 +1,3 @@
-# from mixins import Jsonable
-# from CardsBelote import Card, Deck
-# import itertools
 
 import itertools
 from random import shuffle
