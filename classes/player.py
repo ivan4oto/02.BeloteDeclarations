@@ -1,4 +1,5 @@
 from mixins import Jsonable
+from round_utils import AnnouncementsCards, AnnouncementsGame
 from CardsBelote import Card, Deck
 import itertools
 
@@ -49,7 +50,7 @@ class Player(Jsonable):
 
         #find Belote 
         def find_belote_anns(gametype):
-            if gametype == "All trumps":
+            if gametype != AnnouncementsGame.noTrumps.value:
                 for a in self.cards:
                     if a.value == 'Queen':
                         b = Card(a.suit, 'King')
@@ -68,7 +69,7 @@ class Player(Jsonable):
             def return_value(card):
                 return card.value
 
-            if gametype != 'No trumps':
+            if gametype != AnnouncementsGame.noTrumps.value:
                 #group same value
                 x = [list(j) for i, j in itertools.groupby(self.cards, return_value)]
                 for i in x:
@@ -82,7 +83,7 @@ class Player(Jsonable):
         
         #finds Tierce, Quarte or Quinte
         def find_consecutive_anns(gametype):
-            if gametype != 'No trumps':
+            if gametype != AnnouncementsGame.noTrumps.value:
                 #Groups cards into consecutive values
 
                 def groupSequence(lst):
@@ -99,11 +100,11 @@ class Player(Jsonable):
                 for grp in groups:
                     x = [i for i in grp if i in concat_ar]                    
                     if len(grp) == 3 and not x:
-                        anns['tierce'] = grp
+                        anns[AnnouncementsCards.tierce.value] = grp
                     elif len(grp) == 4 and not x:
-                        anns['quarte'] = grp
+                        anns[AnnouncementsCards.quarte.value] = grp
                     elif len(grp) >= 5 and not x:
-                        anns['quinte'] = grp
+                        anns[AnnouncementsCards.quinte.value] = grp
         
 
         find_carre_anns(gametype)
