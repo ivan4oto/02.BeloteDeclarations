@@ -26,7 +26,7 @@ class Game(Jsonable):
 
     def start_game(self):
 
-        while not type(self.winner):
+        while type(self.winner) == bool:
             self.star_rounds()
 
     def star_rounds(self):
@@ -35,6 +35,7 @@ class Game(Jsonable):
             self.__clear_for_new_round()
             new_round = Round(self.take_round_type(), self.players_order, self.current_round)
             new_round.add_round_members(self.teams)
+            new_round.ordered_players = self.players_order
             new_round.start_round()
             self.rounds.append(new_round)
             # Provarevavame za po golemi ili ednakvi kombinacii

@@ -32,7 +32,7 @@ class Round(Jsonable):
 
     def add_valid_announcements_to_player(self, team):
 
-        for player in team:
+        for player in team.players:
             player.announcements.extend(player.round_report.keys())
             player.all_points += self.calculate_round_report(player)
 

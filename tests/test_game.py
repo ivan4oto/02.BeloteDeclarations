@@ -20,9 +20,28 @@ class TestGame(unittest.TestCase):
 
         self.assertEqual(game.rounds, [])
         self.assertEqual(game.game_number, 1)
-        self.assertEqual(game.winner,False)
+        self.assertEqual(game.winner, False)
         self.assertEqual(game.current_round, 1)
 
+    def test_start_game(self):
+        player1 = Player("Marto")
+        player2 = Player("Pesho")
+        player3 = Player("Nasko")
+        player4 = Player("Petko")
+
+        team1 = Team("Wolf")
+        team2 = Team("Lion")
+        team1.add_team_members([player1, player2])
+        team2.add_team_members([player3, player4])
+
+        game = Game([team1, team2], [player1, player2, player3, player4], 1)
+
+        game.start_game()
+
+        self.assertEqual(game.rounds, [])
+        self.assertEqual(game.game_number, 1)
+        self.assertEqual(game.winner, False)
+        self.assertEqual(game.current_round, 1)
 
 
 if __name__ == '__main__':

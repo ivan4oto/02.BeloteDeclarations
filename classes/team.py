@@ -49,7 +49,7 @@ class Team(Jsonable):
     def collect_total_points(self):
         all_points = 0
         for member in self.players:
-            point = member.all_points()
+            point = member.all_points
             all_points += point
 
         return all_points
