@@ -27,7 +27,7 @@ class Round(Jsonable):
         self.add_valid_announcements_to_team()
 
     #
-    
+
     def add_valid_announcements_to_team(self):
 
         for team in self.teams:
